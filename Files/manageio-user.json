@@ -1,0 +1,37 @@
+{
+	"users": [{
+		"username": "Eduardo Buzeto",
+		"w3id": "carlosbu@br.ibm.com",
+		"environments": [{
+			"name": "Code Bakery",
+			"projects": [{
+				"id": "manageio",
+				"type": 1
+			}]
+		}]
+	}, {
+		"username": "Rafael Moris",
+		"w3id": "rafamos@br.ibm.com",
+		"environments": [{
+			"name": "Code Bakery",
+			"projects": [{
+				"id": "manageio",
+				"type": 3
+			}]
+		}]
+	}],
+	"types": {
+		"1": {
+			"id": 1,
+			"name": "Administrator"
+		},
+		"2": {
+			"id": 2,
+			"name": "Editor"
+		},
+		"3": {
+			"id": 3,
+			"name": "Reader"
+		}
+	}
+}
