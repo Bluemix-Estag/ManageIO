@@ -3,7 +3,7 @@
 		"username": "Eduardo Buzeto",
 		"w3id": "carlosbu@br.ibm.com",
 		"environments": [{
-			"name": "Code Bakery",
+			"id": "codebakery",
 			"projects": [{
 				"id": "manageio",
 				"type": 1
@@ -13,7 +13,7 @@
 		"username": "Rafael Moris",
 		"w3id": "rafamos@br.ibm.com",
 		"environments": [{
-			"name": "Code Bakery",
+			"id": "codebakery",
 			"projects": [{
 				"id": "manageio",
 				"type": 3
