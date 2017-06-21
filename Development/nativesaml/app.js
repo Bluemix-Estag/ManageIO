@@ -76,10 +76,12 @@ app.get("/login", function(req, res) {
 // Assert endpoint for when login completes
 app.post("/assert", function(req, res) {
   var options = {request_body: req };
+  console.log("Options: " + options);
   var response = new Buffer(req.body.SAMLResponse || req.body.SAMLRequest, 'base64');
+  console.log(response);
   var parser = new Saml2js(response);
   
-  // return res.json(parser.toObject());
+  //return res.json(parser.toObject());
   res.render('codeBakeryForm.html',{user: parser.toObject()});
  
 });
