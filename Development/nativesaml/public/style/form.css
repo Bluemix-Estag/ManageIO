@@ -1,0 +1,113 @@
+/*================================================Layout design=================================================*/
+
+.main {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+    .main > .container {
+        background-color: white;
+        margin: 0px auto;
+        padding-left: 10px;
+        padding-right: 10px;
+        -moz-box-shadow: 10px 8px 15px gray, -10px 8px 15px gray, 10px 8px 15px gray;
+        -webkit-box-shadow: 10px 8px 15px gray, -10px 8px 15px gray, 10px 8px 15px gray;
+        box-shadow: 10px 8px 15px gray, -10px 8px 15px gray, 10px 8px 15px gray;
+        min-height: 100%;
+        margin-top: 30px;
+    }
+.navbar-inverse {
+    background: #5f5f5f;
+}
+
+
+/*==========================Form Design=============================*/
+form {
+    padding: 15px;
+}
+.form-group > .col-md-4 > label[for=formulario]{
+    color: black;
+}
+.form-group > .form-group {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+    .form-group > .form-group:nth-child(n+1) {
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+
+    .form-group > .form-group:first-child {
+        padding-left: 0px;
+    }
+
+.form-group > div[class*='col-'] {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+    .form-group > div[class*='col-']:nth-child(n+1) {
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+
+    .form-group > div[class*='col-']:first-child {
+        padding-left: 15px;
+    }
+
+    .form-group > div[class*='col-']:last-child {
+        padding-right: 15px;
+    }
+
+@media only screen and (max-width: 768px) and (min-width: 120px) {
+
+    .form-group > div[class*='col-']:nth-child(n+1) {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .form-group > div[class*='col-']:first-child {
+        padding-right: 15px;
+    }
+
+    .form-group > div[class*='col-']:last-child {
+        padding-left: 15px;
+        padding-bottom: 0px;
+    }
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    darkgray;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    darkgray;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    darkgray;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    darkgray;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+   color:    darkgray;
+}
+
+@media only screen and (max-width: 992px) and (min-width: 769px) {
+    .form-group > div[class*='col-']:nth-child(n+1) {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .form-group > div[class*='col-']:first-child {
+        padding-right: 15px;
+    }
+
+    .form-group > div[class*='col-']:last-child {
+        padding-left: 15px;
+        padding-bottom: 0px;
+    }
+}
