@@ -23,7 +23,7 @@
     <header>
         <nav class="indigo" role="navigation">
             <div class="nav-wrapper">
-<!--                Alterar href para a pagina hosteada no bluemix, atualmente é para local-->
+                <!--                Alterar href para a pagina hosteada no bluemix, atualmente é para local-->
                 <a style="margin-left: 20px;" class="breadcrumb" href="http://localhost:3000/codeBakeryUserP">Suas informações: </a>
 
                 <div style="margin-right: 20px;" id="timestamp" class="right">
@@ -57,7 +57,9 @@
                                          Status do projeto: <%= project.status.name%>
                                     </div>
                                     </span>
-                                    
+                                    <span class="card-title" style="text-align: center !important; font-size: 16pt !important;">
+                                             <b style="  font-size: 12px;">Ultima atualização: <%= project.date %></b>
+                                    </span>
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             <label for="formulario">ID </label>
