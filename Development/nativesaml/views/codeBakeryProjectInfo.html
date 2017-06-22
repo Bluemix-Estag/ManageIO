@@ -12,6 +12,8 @@
     <link href="style/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="style/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link rel="stylesheet" href="/style/form.css" />
+    <script src="../scripts/userPanel.js"></script>
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -21,17 +23,14 @@
     <header>
         <nav class="indigo" role="navigation">
             <div class="nav-wrapper">
-                <a style="margin-left: 20px;" class="breadcrumb" href="#!">Suas informações: </a>
+                <a style="margin-left: 20px;" class="breadcrumb" href="http://localhost:3000/codeBakeryUserP">Suas informações: </a>
 
                 <div style="margin-right: 20px;" id="timestamp" class="right">
                     <ul class="right hide-on-med-and-down">
-                        <li class="breadcrumb">&nbsp; &nbsp; Matricula:
-                            <%= user.uid %> Email:
-                                <%= user.emailaddress %> &nbsp;</li>
+                        <li class="breadcrumb">&nbsp; &nbsp; Matricula: 31517072 Email: carfer@br.ibm.com &nbsp;</li>
                     </ul>
                     <ul class="right hide-on-med-and-down">
-                        <li class="breadcrumb">&nbsp; Usuario:
-                            <%= user.cn %> &nbsp; &nbsp;</li>
+                        <li class="breadcrumb">&nbsp; Usuario: Carlos Henrique Fernandes Lobato &nbsp; &nbsp;</li>
                     </ul>
                 </div>
 
@@ -47,14 +46,28 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-6">
-                            <form action="/codebakery/project/insert" method="post">
+                            <form action="/codebakery/project/insert2" method="post">
                                 <fieldset>
 
-                                    <span class="card-title" style="text-align: center !important; font-size: 16pt !important;"> Envie seu projeto</span>
+                                    <span class="card-title" style="text-align: center !important; font-size: 16pt !important;"> Edite seu projeto</span>
+                                    <span class="card-title" style="text-align: center !important; font-size: 16pt !important;">
+                                    
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="chip <%= project.status.color %>" style="text-align: right !important;">
+                                         Status do projeto: <%= project.status.name%>
+                                    </div>
+                                    </span>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label for="formulario">ID </label>
+                                            <input type="text" name="customer" class="form-control" value="<%= project.id %>" readonly>
+                                        </div>
+
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             <label for="formulario">Customer </label>
-                                            <input type="text" name ="customer" class="form-control" placeholder="Please enter your customer name">
+                                            <input type="text" name="customer" class="form-control" value="<%= project.customer %>" readonly>
                                         </div>
 
                                     </div>
@@ -62,23 +75,23 @@
 
                                         <div class="col-md-4">
                                             <label for="formulario">Project Name </label>
-                                            <input type="text" name="title" class="form-control" placeholder="Please enter your project name">
+                                            <input type="text" name="customer" class="form-control" value="<%= project.title %>" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             <label for="formulario">Story </label>
-                                            <textarea class="materialize-textarea" name="story" id="textarea1" placeholder="Please enter your project description"></textarea>
+                                            <textarea class="materialize-textarea" name="story" id="textarea1" readonly><%= project.story%></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4">
                                             <label for="formulario">Opportunity Number </label>
-                                            <input type="text" class="form-control" name="opportunity_number" maxlength="10" id="firstName" placeholder="Please enter the opportunity number">
+                                            <input type="text" class="form-control" name="opportunity_number" maxlength="10" id="firstName" value="<%= project.opportunity_nr %>" readonly>
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn indigo ">Submit</button>
+                                    <button type="submit" class="btn indigo ">Editar</button>
                                 </fieldset>
                             </form>
                         </div>
@@ -89,6 +102,9 @@
 
 
 
+        </div>
+        <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+            <a class="btn-floating btn-large waves-effect waves-light indigo" href="http://localhost:3000/codeBakeryFormFixed"><i class="material-icons">add</i></a>
         </div>
     </main>
 
