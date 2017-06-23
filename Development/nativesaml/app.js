@@ -65,7 +65,7 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/codeBakeryFormFixed", function (req, res) {
-    res.render('codebakeryFormFixedValues.html');
+    res.render('codeBakeryFormFixedValues.html');
 })
 
 
@@ -88,12 +88,12 @@ app.post("/assert", function (req, res) {
 });
 
 app.get('/codebakeryuser', function (req, res) {
-    res.render('codebakeryUserPanel.html', {
+    res.render('codeBakeryUserPanel.html', {
         projects: null
     });
 })
 app.get('/codebakeryuserP', function (req, res) {
-    res.render('codebakeryUserPanel.html', {
+    res.render('codeBakeryUserPanel.html', {
         projects: [{
                 "title": "Nome do Projeto 1"
             },
@@ -117,7 +117,7 @@ app.get('/onboarduserP', function (req, res) {
 })
 
 app.get('/codebakeryuserPInfo', function (req, res) {
-    res.render('codebakeryProjectInfo.html', {
+    res.render('codeBakeryProjectInfo.html', {
         project: {
             "id": "manageio",
             status: {
@@ -187,9 +187,9 @@ app.get('/assert', function (req, res) {
     res.render('codebakery.html');
 })
 
-//app.get('/codeBakeryForm',function(req,res){
-//    res.render('codebakeryForm.html');
-//})
+app.get('/codeBakeryForm',function(req,res){
+    res.render('codeBakeryForm.html');
+})
 
 app.get('/', function (req, res) {
     res.render('codebakery.html');
