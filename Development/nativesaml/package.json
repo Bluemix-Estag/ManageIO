@@ -1,24 +1,30 @@
 {
-  "name": "NodejsStarterApp",
-  "version": "0.0.1",
+  "name": "cloudant_boilerplate_nodejs",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "cfenv": "1.0.x",
-    "cookie-parser": "^1.4.1",
+    "body-parser": "1.17.x",
+    "cfenv": "^1.0.4",
+    "cloudant": "1.7.x",
+    "connect-multiparty": "2.0.x",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
-    "ejs": "^2.5.6",
-    "express": "4.13.x",
+    "ejs": "2.5.x",
+    "errorhandler": "1.5.x",
+    "express": "4.15.x",
     "express-session": "^1.15.3",
+    "method-override": "2.3.x",
+    "morgan": "1.8.x",
+    "request": "^2.81.0",
     "routes": "^2.1.0",
-    "saml2-js": "1.4.3",
-    "saml2js": "0.1.2"
+    "saml2-js": "^1.4.3",
+    "saml2js": "^0.1.2"
   },
   "repository": {},
   "engines": {
-    "node": "4.2.x"
+    "node": "6.x"
   }
 }

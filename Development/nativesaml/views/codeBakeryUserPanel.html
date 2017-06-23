@@ -23,7 +23,7 @@
     <header>
         <nav class="indigo" role="navigation">
             <div class="nav-wrapper">
-                <a style="margin-left: 20px;" class="breadcrumb" href="/codebakeryuserp">Suas informações: </a>
+                <a style="margin-left: 20px;" class="breadcrumb" href="/codebakeryuser">Suas informações: </a>
 
                 <div style="margin-right: 20px;" id="timestamp" class="right">
                     <ul class="right hide-on-med-and-down">
@@ -52,32 +52,38 @@
                     <h4>Voce nao possui projetos, peça um para que ele apareça aqui</h4>
                     <%} else { %>
                         <div class="row">
-                            <a href="/codebakeryuserpinfo">
-                                <div style="padding: 30px;" class="grey lighten-3 col s5 waves-effect">
-                                    <img src="https://res.cloudinary.com/dacg0wegv/image/upload/t_media_lib_thumb/v1463989969/squares_dylwo9.png" class="responsive-img" /><br>
-                                    <span class="indigo-text text-lighten-1"><h5><%= projects[0].title %></h5></span>
+                            <!-- Page Layout here -->
+                            <div class="col s0 m0 l2">&nbsp</div>
+
+                            <!-- Cards container -->
+                            <div class="col s12 m12 l8">
+                                <div class="row">
+                                    <% for (var key = 0; key < projects.length; key++) { %>
+                                        <a href="/codebakeryuserinfo?env=codebakery&id=<%= projects[key].id %>">
+                                            <!-- Col: Card 1 -->
+                                            <div class="col s12 m6 l4">
+                                                <!-- Card 1 -->
+                                                <div class="card">
+                                                    <div class="card-content white-text">
+                                                        <img src="https://res.cloudinary.com/dacg0wegv/image/upload/t_media_lib_thumb/v1463989969/squares_dylwo9.png" class="responsive-img" /><br>
+                                                        <span class="indigo-text text-lighten-1"><h5><%= projects[key].id %> </h5></span>
+
+                                                    </div>
+                                                </div>
+                                                <!-- End of card -->
+                                            </div>
+                                            <% } %>
                                 </div>
-                            </a>
-                            <div class="col s1">&nbsp;</div>
-                            <div class="col s1">&nbsp;</div>
-                            
-                            <a href="#!">
-                                <div style="padding: 30px;" class="grey lighten-3 col s5 waves-effect">
-                                    <img src="https://res.cloudinary.com/dacg0wegv/image/upload/t_media_lib_thumb/v1463989969/squares_dylwo9.png" class="responsive-img" /><br>
-<!--                                    <% console.log(projects[0].title); %>-->
-                                    <span class="truncate indigo-text text-lighten-1"><h5><%= projects[1].title %></h5></span>
-                                </div>
-                            </a>
+
+
+
+                                <% } %>
+                            </div>
                         </div>
-
-
-                        <% } %>
-            </div>
-        </div>
-        &nbsp;</li>
-        <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating waves-effect waves-light indigo" href="/codebakeryform"><i class="material-icons"><img src="images/add.svg"></i></a>
-        </div>
+                        &nbsp;</li>
+                        <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+                            <a class="btn-floating waves-effect waves-light indigo" href="/codebakeryform"><i class="material-icons"><img src="images/add.svg"></i></a>
+                        </div>
     </main>
 
 </body>

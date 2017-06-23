@@ -6,3 +6,5 @@ applications:
   name: projecit
   host: projecit
   disk_quota: 1024M
+  services:
+  - code-bakery-orchestrator-cloudantNoSQLDB

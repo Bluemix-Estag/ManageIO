@@ -1,0 +1,16 @@
+{
+	"services": {
+		"cloudantNoSQLDB": [{
+			"label": "cloudantNoSQLDB",
+			"name": "code-bakery-orchestrator-cloudantNoSQLDB",
+			"plan": "Lite",
+			"credentials": {
+				"username": "7a3452e3-0a87-4f2a-816a-10e4f5fdc3bc-bluemix",
+				"password": "9325e5d50d8e8ff192aa123357dd6f574402fb193eb5ac093d2fa50a5ed5045f",
+				"host": "7a3452e3-0a87-4f2a-816a-10e4f5fdc3bc-bluemix.cloudant.com",
+				"port": 443,
+				"url": "https://7a3452e3-0a87-4f2a-816a-10e4f5fdc3bc-bluemix:9325e5d50d8e8ff192aa123357dd6f574402fb193eb5ac093d2fa50a5ed5045f@7a3452e3-0a87-4f2a-816a-10e4f5fdc3bc-bluemix.cloudant.com"
+			}
+		}]
+	}
+}
