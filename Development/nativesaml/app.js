@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
 var express = require('express');
+var session = require('express-session')
 var cfenv = require('cfenv');
 
 // create a new express server
@@ -26,6 +27,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/style', express.static(path.join(__dirname, '/views/style')));
 app.use('/scripts', express.static(path.join(__dirname, '/views/scripts')));
+
+app.use(session({
+    secret: 'secret'
+}));
+
+var sess;
 
 // Create service provider 
 var sp_options = {
@@ -64,13 +71,14 @@ app.get("/login", function (req, res) {
     });
 });
 
-app.get("/codeBakeryFormFixed", function (req, res) {
-    res.render('codeBakeryFormFixedValues.html');
+app.get("/codebakerybormfixed", function (req, res) {
+    res.render('codebakeryformfixedvalues.html');
 })
 
 
 // Assert endpoint for when login completes
 app.post("/assert", function (req, res) {
+    sess = req.session;
     var options = {
         request_body: req
     };
@@ -80,7 +88,9 @@ app.post("/assert", function (req, res) {
     var parser = new Saml2js(response);
 
     //return res.json(parser.toObject());
-    res.render('codeBakeryUserPanel.html', {
+    sess.users = parser.toObject();
+    console.log("Session"+sess);
+    res.render('codebakeryuserpanel.html', {
         user: parser.toObject(),
         projects: null
     });
@@ -88,12 +98,14 @@ app.post("/assert", function (req, res) {
 });
 
 app.get('/codebakeryuser', function (req, res) {
-    res.render('codeBakeryUserPanel.html', {
-        projects: null
+    sess = req.session;
+    res.render('codebakeryuserpanel.html', {
+        projects: null,
+        user: sess.users
     });
 })
-app.get('/codebakeryuserP', function (req, res) {
-    res.render('codeBakeryUserPanel.html', {
+app.get('/codebakeryuserp', function (req, res) {
+    res.render('codebakeryuserpanel.html', {
         projects: [{
                 "title": "Nome do Projeto 1"
             },
@@ -103,8 +115,14 @@ app.get('/codebakeryuserP', function (req, res) {
     });
 })
 
-app.get('/onboarduserP', function (req, res) {
-    res.render('onboardUserPanel.html', {
+app.get('/onboarduserp', function (req, res) {
+
+    sess = req.session;
+    sess.users = {
+        "name": "Que isso porra",
+        "email": "foi carvalho"
+    }
+    res.render('onboarduserpanel.html', {
         projects: [{
                 "title": "Camanchaca"
             }, {
@@ -112,12 +130,13 @@ app.get('/onboarduserP', function (req, res) {
             },
             {
                 "title": "Comporte"
-            }]
+            }],
     });
 })
 
-app.get('/codebakeryuserPInfo', function (req, res) {
-    res.render('codeBakeryProjectInfo.html', {
+app.get('/codebakeryuserpinfo', function (req, res) {
+
+    res.render('codebakeryprojectinfo.html', {
         project: {
             "id": "manageio",
             status: {
@@ -134,15 +153,17 @@ app.get('/codebakeryuserPInfo', function (req, res) {
     });
 })
 
-app.get('/onboardProjectInfo', function (req, res) {
+app.get('/onboardprojectinfo', function (req, res) {
     var showID = req.query.id;
+    sess = req.session;
+    console.log(sess.users);
     console.log("Show ID: " + showID);
-    res.render('onboardProjectInfo.html', {
+    res.render('onboardprojectinfo.html', {
         project: [{
                 "id": "Camanchaca",
                 status: {
                     "name": "Good",
-                    "color": "green"
+                    "color": "grey lighten-1"
                 },
                 "timestamp": 1497968993,
                 "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
@@ -177,6 +198,7 @@ app.get('/onboardProjectInfo', function (req, res) {
                 "opportunity_nr": "112394sdf"
             },
             ],
+        user: sess.users,
         showid: showID
     });
 })
@@ -187,8 +209,11 @@ app.get('/assert', function (req, res) {
     res.render('codebakery.html');
 })
 
-app.get('/codeBakeryForm',function(req,res){
-    res.render('codeBakeryForm.html');
+app.get('/codebakeryform', function (req, res) {
+    sess = req.session;
+    res.render('codebakeryform.html', {
+        user: sess.users
+    });
 })
 
 app.get('/', function (req, res) {
