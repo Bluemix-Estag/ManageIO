@@ -52,153 +52,6 @@ var idp_options = {
 };
 var idp = new saml2.IdentityProvider(idp_options);
 
-// Add headers
-app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-});
-
-
-fs.stat('./vcap-local.json', function (err, stat) {
-    if (err && err.code === 'ENOENT') {
-        // file does not exist
-        console.log('No vcap-local.json');
-        initializeAppEnv();
-    } else if (err) {
-        console.log('Error retrieving local vcap: ', err.code);
-    } else {
-        vcapLocal = require("./vcap-local.json");
-        console.log("Loaded local VCAP", vcapLocal);
-        appEnvOpts = {
-            vcap: vcapLocal
-        };
-        initializeAppEnv();
-    }
-});
-
-// get the app environment from Cloud Foundry, defaulting to local VCAP
-function initializeAppEnv() {
-    appEnv = cfenv.getAppEnv(appEnvOpts);
-    if (appEnv.isLocal) {
-        require('dotenv').load();
-    }
-    if (appEnv.services.cloudantNoSQLDB) {
-        initCloudant();
-    } else {
-        console.error("No Cloudant service exists.");
-    }
-}
-
-// =====================================
-// CLOUDANT SETUP ======================
-// =====================================
-var dbname = "manageio";
-var database;
-
-function initCloudant() {
-    var cloudantURL = appEnv.services.cloudantNoSQLDB[0].credentials.url || appEnv.getServiceCreds("whatsound-playlist-cloudantNoSQLDB").url;
-    var Cloudant = require('cloudant')({
-        url: cloudantURL,
-        plugin: 'retry',
-        retryAttempts: 10,
-        retryTimeout: 500
-    });
-    // Create the accounts Logs if it doesn't exist
-    Cloudant.db.create(dbname, function (err, body) {
-        if (err && err.statusCode == 412) {
-            console.log("Database already exists: ", dbname);
-        } else if (!err) {
-            console.log("New database created: ", dbname);
-        } else {
-            console.log('Cannot create database!');
-        }
-    });
-    database = Cloudant.db.use(dbname);
-    //INSERT INTO PROJECTS
-    app.post('/codebakery/project/insert', function (req, res) {
-        var order = req.body;
-        console.log("Received " + JSON.stringify(track));
-        database.get('codebakery', {
-            revs_info: true
-        }, function (err, doc) {
-            if (err) {
-                console.error(err);
-            } else {
-
-                // Para fazer: Essa linha de codigo vai verificar se o projeto com o opp_nr ja existe, se nao existir ele insere no db.
-                //                var orders = doc.projects;
-                //                  var existingProject = false;
-                //                for (var or in orders) {
-                //                    if (order.opportunity_nr == orders[or].uri) {
-                //                        console.log("Uri igual");
-                //                        existingTrack = true;
-                //                        foundTrack = tr;
-                //                        for (var vt in tracks[tr].voters) {
-                //                            if (tracks[tr].voters[vt].nameUser.localeCompare(track.voter.nameUser) == 0) {
-                //                                existingVoter = true;
-                //                                res.setHeader('Content-Type', 'application/json');
-                //                                res.status(403).json({
-                //                                    message: "Forbidden, already voted.",
-                //                                    status: false
-                //                                });
-                //                            }
-                //                        }
-                //                    }
-                //                }
-                //if (!existingProject) {
-                //Insert a new track
-                project = {
-
-                    "customer": order.customer,
-                    "title": order.title,
-                    "story": order.story,
-                    "opportunity_number": order.opportunity_number
-                }
-
-                createUserProjects(environment, w3id_owner, id, "requester", response, function () {
-                    //    createEnvironmentProject(environment,project,response);
-
-                })
-            }
-            console.log(projects)
-
-            // Change for the database that we are using
-            if (!existingProject) {
-                doc.tracks = tracks;
-                database.insert(doc, 'codebakery', function (err, doc) {
-                    if (err) {
-                        res.setHeader('Content-Type', 'application/json');
-                        res.status(400).json({
-                            message: "Could not handle the request",
-                            status: false
-                        });
-                    } else {
-                        res.setHeader('Content-Type', 'application/json');
-                        res.status(200).json({
-                            message: "Vote computed correctly",
-                            status: true
-                        });
-                    }
-                });
-            }
-        })
-    })
-}
-
 // ------ Define express endpoints ------ 
 // Endpoint to retrieve metadata 
 app.get("/metadata.xml", function (req, res) {
@@ -255,11 +108,24 @@ app.get('/codebakeryuserP', function (req, res) {
     });
 })
 
+app.get('/onboarduserP', function (req, res) {
+    res.render('onboardUserPanel.html', {
+        projects: [{
+                "title": "Camanchaca"
+            }, {
+                "title": "Farmoquímica"
+            },
+            {
+                "title": "Comporte"
+            }]
+    });
+})
+
 app.get('/codebakeryuserPInfo', function (req, res) {
     res.render('codebakeryProjectInfo.html', {
         project: {
             "id": "manageio",
-            status: { 
+            status: {
                 "name": "Em Análise",
                 "color": "red"
             },
@@ -272,6 +138,55 @@ app.get('/codebakeryuserPInfo', function (req, res) {
         }
     });
 })
+
+app.get('/onboardProjectInfo', function (req, res) {
+    var showID = req.query.id;
+    console.log("Show ID: " + showID);
+    res.render('onboardProjectInfo.html', {
+        project: [{
+                "id": "Camanchaca",
+                status: {
+                    "name": "Good",
+                    "color": "green"
+                },
+                "timestamp": 1497968993,
+                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
+                "customer": "Camanchaca",
+                "title": "C4SAP",
+                "story": "Wave  #1 completed  with success;\nSchedule: Wave  #2 for  SEP./2017 and  DR  to be reviewed",
+                "opportunity_nr": "112394sdf"
+        },
+            {
+                "id": "Farmoquimica",
+                status: {
+                    "name": "Neutral",
+                    "color": "yellow"
+                },
+                "timestamp": 1497968993,
+                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
+                "customer": "Farmoquimica",
+                "title": "C4SAP \n CMS",
+                "story": "- G2G  daily calls in place;\n- Migration  to HANA  scheduled  for  18/JUN./2017\n- Maintenance  windows  on CMS  may impact migration  activities\n- Farmoquimica hired  additional  resources  from  SAP to anticipate cutover  activities, in order to mitigate the risk posed  by the maintenance  window\n- As of  16/JUN./2017 10:30h  SAP hab been  able  to compress the cutover,  reducing around  24 hours.\n- There  were  issues with servers  already  delivered: \n     - Server  without NPS properly  configured; \n      - DNS  instabilities ",
+                "opportunity_nr": "112394sdf"
+            }, {
+                "id": "Comporte",
+                status: {
+                    "name": "Bad",
+                    "color": "red"
+                },
+                "timestamp": 1497968993,
+                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
+                "customer": "Comporte",
+                "title": "C4SAP",
+                "story": "Data  migration  has started; there  are issues and CMS-NW  has been  engaged ",
+                "opportunity_nr": "112394sdf"
+            },
+            ],
+        showid: showID
+    });
+})
+
+
 
 app.get('/assert', function (req, res) {
     res.render('codebakery.html');

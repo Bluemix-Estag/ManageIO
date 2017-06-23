@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage IO</title>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+    <link href="style/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="style/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link rel="stylesheet" href="/style/form.css" />
+    <script src="../scripts/userPanel.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+    <header>
+        <nav class="indigo" role="navigation">
+            <div class="nav-wrapper">
+                <a style="margin-left: 20px;" class="breadcrumb" href="#!">Suas informações: </a>
+
+                <div style="margin-right: 20px;" id="timestamp" class="right">
+                    <ul class="right hide-on-med-and-down">
+                        <li class="breadcrumb">&nbsp; &nbsp; Matricula: 31517072 Email: carfer@br.ibm.com &nbsp;</li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li class="breadcrumb">&nbsp; Usuario: Carlos Henrique Fernandes Lobato &nbsp; &nbsp;</li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="col s6">
+            <div style="padding: 35px;" align="center" class="card">
+                <div class="row">
+                    <div class="left card-title">
+                        <b>Project Management</b>
+                    </div>
+                </div>
+                <% if (projects == null){ %>
+
+                    <h4>Voce nao possui projetos, peça um para que ele apareça aqui</h4>
+                    <%} else { %>
+                        <div class="row">
+                            <!-- Page Layout here -->
+                            <div class="col s0 m0 l2">&nbsp</div>
+
+                            <!-- Cards container -->
+                            <div class="col s12 m12 l8">
+                                <div class="row">
+                                    <% for (var key in projects) { %>
+                                        <a href="/onboardprojectInfo?id=<%= key %>">
+                                            <!-- Col: Card 1 -->
+                                            <div class="col s12 m6 l4">
+                                                <!-- Card 1 -->
+                                                <div class="card">
+                                                    <div class="card-content white-text">
+                                                        <img src="https://res.cloudinary.com/dacg0wegv/image/upload/t_media_lib_thumb/v1463989969/squares_dylwo9.png" class="responsive-img" /><br>
+                                                        <span class="indigo-text text-lighten-1"><h5><%= projects[key].title %></h5></span>
+
+                                                    </div>
+                                                </div>
+                                                <!-- End of card -->
+                                            </div>
+                                            <% } %>
+                                </div>
+
+
+                                <% } %>
+                            </div>
+                        </div>
+                        &nbsp;</li>
+                        <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+                            <a class="btn-floating btn-large waves-effect waves-light indigo" href="#"><i class="material-icons">add</i></a>
+                        </div>
+    </main>
+
+</body>
+
+</html>
