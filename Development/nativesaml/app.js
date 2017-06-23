@@ -8,12 +8,6 @@ var cookieParser = require('cookie-parser');
 var express = require('express');
 var cfenv = require('cfenv');
 
-// load local VCAP configuration
-var vcapLocal = null;
-var appEnv = null;
-var appEnvOpts = {};
-
-
 // create a new express server
 var path = require('path');
 var app = express();
@@ -87,7 +81,8 @@ app.post("/assert", function (req, res) {
 
     //return res.json(parser.toObject());
     res.render('codeBakeryUserPanel.html', {
-        user: parser.toObject()
+        user: parser.toObject(),
+        projects: null
     });
 
 });
