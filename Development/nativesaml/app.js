@@ -128,15 +128,61 @@ app.get('/codebakeryuser', function(req, res) {
             user: sess.users
         });
     });
+
 })
 
-app.get('/onboarduserp', function(req, res) {
-    sess = req.session;
+app.get('/panel', function(req, res) {
+
+  sess = req.session;
+  env = req.query.env;
 
     sess.users = {
-        "name": "Que isso porra",
-        "email": "foi carvalho"
+      "name": "Francisco Cardoso",
+      "email": "cardoso@br.ibm.com"
     }
+
+    var data = {
+        url: hostname + "/api/user?w3id="+sess.users.email+"&env="+env,
+        headers: {
+            Accept: 'text/json'
+        }
+    };
+
+    request(data, function(error, response, body) {
+        var projects = JSON.parse(body);
+        console.log(projects);
+        console.log("Alo"+projects[0].id);
+        var final = [];
+
+        for(var i = 0; i < projects.length; i++){
+          console.log("AQUI:"+projects[i].id);
+          var data2 = {
+              url: hostname + "/api/project?id="+projects[i].id+"&env="+env,
+              headers: {
+                  Accept: 'text/json'
+              }
+          };
+
+          request(data2, function(error2, response2, body2) {
+
+              final.push(JSON.parse(body2));
+
+              if(final.length == projects.length){
+                console.log("FINAL"+final);
+                sess.projects = final;
+                res.cookie('projects', final);
+                res.cookie('teste', 'teste');
+                res.render('onboardUserPanel.html', {
+                    projects: final,
+                    user: sess.users
+                });
+              }
+          });
+        }
+    });
+
+
+    /*
     res.render('onboarduserpanel.html', {
         projects: [{
                 "title": "Camanchaca"
@@ -148,6 +194,7 @@ app.get('/onboarduserp', function(req, res) {
             }
         ],
     });
+    */
 })
 
 app.get('/codebakeryuserinfo', function(req, res) {
@@ -168,54 +215,21 @@ app.get('/codebakeryuserinfo', function(req, res) {
     });
 })
 
-app.get('/onboardprojectinfo', function(req, res) {
+app.get('/projectinfo', function(req, res) {
     var showID = req.query.id;
     sess = req.session;
-    console.log(sess.users);
-    console.log("Show ID: " + showID);
-    res.render('onboardprojectinfo.html', {
-        project: [{
-                "id": "Camanchaca",
-                status: {
-                    "name": "Good",
-                    "color": "grey lighten-1"
-                },
-                "timestamp": 1497968993,
-                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
-                "customer": "Camanchaca",
-                "title": "C4SAP",
-                "story": "Wave  #1 completed  with success;\nSchedule: Wave  #2 for  SEP./2017 and  DR  to be reviewed",
-                "opportunity_nr": "112394sdf"
-            },
-            {
-                "id": "Farmoquimica",
-                status: {
-                    "name": "Neutral",
-                    "color": "yellow"
-                },
-                "timestamp": 1497968993,
-                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
-                "customer": "Farmoquimica",
-                "title": "C4SAP \n CMS",
-                "story": "- G2G  daily calls in place;\n- Migration  to HANA  scheduled  for  18/JUN./2017\n- Maintenance  windows  on CMS  may impact migration  activities\n- Farmoquimica hired  additional  resources  from  SAP to anticipate cutover  activities, in order to mitigate the risk posed  by the maintenance  window\n- As of  16/JUN./2017 10:30h  SAP hab been  able  to compress the cutover,  reducing around  24 hours.\n- There  were  issues with servers  already  delivered: \n     - Server  without NPS properly  configured; \n      - DNS  instabilities ",
-                "opportunity_nr": "112394sdf"
-            }, {
-                "id": "Comporte",
-                status: {
-                    "name": "Bad",
-                    "color": "red"
-                },
-                "timestamp": 1497968993,
-                "date": "Tue Jun 16 2017 20:29:53 GMT-0300 (-03)",
-                "customer": "Comporte",
-                "title": "C4SAP",
-                "story": "Data  migration  has started; there  are issues and CMS-NW  has been  engaged ",
-                "opportunity_nr": "112394sdf"
-            },
-        ],
-        user: sess.users,
-        showid: showID
-    });
+    //console.log(req.session);
+    //console.log(sess.projects);
+    //console.log(sess.users);
+    //console.log("Show ID: " + showID);
+    object = {
+      project: sess.projects,
+      user: sess.user,
+      showid: showID
+    }
+
+    console.log(object);
+    res.render('onboardProjectInfo.html', object);
 })
 
 app.get('/assert', function(req, res) {
