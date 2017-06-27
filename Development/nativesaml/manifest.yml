@@ -3,7 +3,7 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: projecit
+  name: code-bakery-orchestrator
   host: projecit
   disk_quota: 1024M
   services:

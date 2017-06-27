@@ -141,6 +141,8 @@ app.get('/panel', function(req, res) {
       "email": "cardoso@br.ibm.com"
     }
 
+    sess.env = env;
+
     var data = {
         url: hostname + "/api/user?w3id="+sess.users.email+"&env="+env,
         headers: {
@@ -258,7 +260,7 @@ app.post('/codebakery/project/create', function(req, res) {
     var project = {
         environment: "codebakery",
         id: req.body.id,
-        w3id_owner: "rafamos@br.ibm.com",
+        w3id_owner: sess.user.email,
         timestamp: Date.now(),
         date: Date().toString(),
         customer: req.body.customer,
@@ -295,8 +297,13 @@ function getDBCredentialsUrl(jsonData) {
     // Pattern match to find the first instance of a Cloudant service in
     // VCAP_SERVICES. If you know your service key, you can access the
     // service credentials directly by using the vcapServices object.
-    console.log(vcapServices.services.cloudantNoSQLDB[0].credentials.url);
-    return vcapServices.services.cloudantNoSQLDB[0].credentials.url;
+    for (var vcapService in vcapServices) {
+        if (vcapService.match(/cloudant/i)) {
+            return vcapServices[vcapService][0].credentials.url;
+        }
+    }
+    //console.log(vcapServices.services.cloudantNoSQLDB[0].credentials.url);
+    //return vcapServices.services.cloudantNoSQLDB[0].credentials.url;
 
 }
 
