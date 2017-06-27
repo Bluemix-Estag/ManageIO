@@ -105,11 +105,16 @@ app.post("/assert", function(req, res) {
     //return res.json(parser.toObject());
     sess.users = parser.toObject();
     console.log("Session" + sess);
+    console.log("users?"+sess.users);
+    console.log("email?"+sess.users.emailaddress);
+    console.log("parser"+parser.toObject().emailaddress)
+    res.redirect("https://projecit.mybluemix.net/panel?env=codebakery");
+    /*
     res.render('codebakeryuserpanel.html', {
         user: parser.toObject(),
         projects: null
     });
-
+    */
 });
 
 app.get('/codebakeryuser', function(req, res) {
@@ -136,15 +141,11 @@ app.get('/panel', function(req, res) {
   sess = req.session;
   env = req.query.env;
 
-    sess.users = {
-      "name": "Francisco Cardoso",
-      "email": "cardoso@br.ibm.com"
-    }
-
     sess.env = env;
 
+  console.log("funfou?"+sess.users.emailaddress);
     var data = {
-        url: hostname + "/api/user?w3id="+sess.users.email+"&env="+env,
+        url: hostname + "/api/user?w3id="+sess.users.emailaddress+"&env="+env,
         headers: {
             Accept: 'text/json'
         }
@@ -172,8 +173,8 @@ app.get('/panel', function(req, res) {
               if(final.length == projects.length){
                 console.log("FINAL"+final);
                 sess.projects = final;
-                res.cookie('projects', final);
-                res.cookie('teste', 'teste');
+                //res.cookie('projects', final);
+                //res.cookie('teste', 'teste');
                 res.render('onboardUserPanel.html', {
                     projects: final,
                     user: sess.users
