@@ -130,7 +130,21 @@ app.get('/codebakeryuser', function(req, res) {
     });
 
 })
+app.get('/panel', function(req, res) {
 
+<<<<<<< HEAD
+  sess = req.session;
+  env = req.query.env;
+
+     
+    
+    sess.users = {
+        name: "Francisco Cardoso",
+        email: "cardoso@br.ibm.com"
+    }
+        
+    sess.env = env;
+=======
 app.get('/panel', function(req, res) {
 
   sess = req.session;
@@ -140,6 +154,7 @@ app.get('/panel', function(req, res) {
       "name": "Francisco Cardoso",
       "email": "cardoso@br.ibm.com"
     }
+>>>>>>> origin/master
 
     var data = {
         url: hostname + "/api/user?w3id="+sess.users.email+"&env="+env,
@@ -174,7 +189,11 @@ app.get('/panel', function(req, res) {
                 res.cookie('teste', 'teste');
                 res.render('onboardUserPanel.html', {
                     projects: final,
+<<<<<<< HEAD
+                    user: sess.users,
+=======
                     user: sess.users
+>>>>>>> origin/master
                 });
               }
           });
@@ -258,7 +277,11 @@ app.post('/codebakery/project/create', function(req, res) {
     var project = {
         environment: "codebakery",
         id: req.body.id,
+<<<<<<< HEAD
+        w3id_owner: sess.user.email,
+=======
         w3id_owner: "rafamos@br.ibm.com",
+>>>>>>> origin/master
         timestamp: Date.now(),
         date: Date().toString(),
         customer: req.body.customer,
